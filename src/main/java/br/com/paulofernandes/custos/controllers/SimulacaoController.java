@@ -37,14 +37,14 @@ public class SimulacaoController {
 	}
 
 	@PostMapping("/simulacao")
-	public ModelAndView simular(@Valid SimulacaoDTO simulacaoDTO, BindingResult result, RedirectAttributes redirect) {
+	public ModelAndView simular(@Valid SimulacaoDTO simulacaoDTO, BindingResult result, RedirectAttributes redirect, VeiculoDTO veiculoDTO) {
 		if (result.hasErrors()) {
-			return simulacao(simulacaoDTO, new VeiculoDTO());
+			return simulacao(simulacaoDTO, veiculoDTO);
 		}
 
 		simulacaoService.simular(simulacaoDTO);
 
-		redirect.addFlashAttribute("mensagemSucesso", "message.simulacao.sucesso");
+		redirect.addFlashAttribute("mensagemRetorno", "message.simulacao.sucesso");
 		redirect.addFlashAttribute("custoFinal", simulacaoDTO.getCustoFinal());
 		return new ModelAndView("redirect:/simulacao");
 	}

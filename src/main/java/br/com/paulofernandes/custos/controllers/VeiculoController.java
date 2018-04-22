@@ -27,10 +27,11 @@ public class VeiculoController {
 	@PostMapping("/veiculo")
 	public ModelAndView adicionar(SimulacaoDTO simulacaoDTO, @Valid VeiculoDTO veiculoDTO, BindingResult result, RedirectAttributes redirect) {
 		if (result.hasErrors()) {
-			//
+			redirect.addFlashAttribute("mensagemRetorno", "message.veiculo.nao.adicionado");
+		} else {
+			veiculoService.adicionar(veiculoDTO);
+			redirect.addFlashAttribute("mensagemRetorno", "message.veiculo.adicionado");
 		}
-		veiculoService.adicionar(veiculoDTO);
-		redirect.addFlashAttribute("mensagemSucesso", "message.veiculo.adicionado");
 		redirect.addFlashAttribute(simulacaoDTO);
 
 		return new ModelAndView("redirect:/simulacao");

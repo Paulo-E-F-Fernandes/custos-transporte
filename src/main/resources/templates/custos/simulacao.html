@@ -34,8 +34,8 @@
 						</button>
 					</div><!-- ./alert-danger -->
 					
-					<div class="alert alert-success offset-md-2 col-md-10 alert-dismissible fade show" role="alert" th:if="${!#strings.isEmpty(mensagemSucesso) && custoFinal == null}">
-						<span th:text="#{${mensagemSucesso}}"></span>
+					<div class="alert alert-success offset-md-2 col-md-10 alert-dismissible fade show" role="alert" th:if="${!#strings.isEmpty(mensagemRetorno) && custoFinal == null}">
+						<span th:text="#{${mensagemRetorno}}"></span>
 						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
@@ -104,7 +104,7 @@
 			<div class="col-md-4" th:if="${custoFinal != null}">
 				<div class="alert alert-success col-md-12 alert-dismissible fade show" role="alert">
 					<div class="row">
-						<span class="col-md-12" th:text="#{${mensagemSucesso}}"></span>
+						<span class="col-md-12" th:text="#{${mensagemRetorno}}"></span>
 						<span class="col-md-12" th:text="#{message.simulacao.sucesso.prefixo}"></span>
 						<span class="col-md-12 return-currency" th:text="${#numbers.formatCurrency(custoFinal)}"></span>				
 					</div>
@@ -131,7 +131,7 @@
 					  				<div class="col-md-12">
 					  					<label for="veiculoNome" th:text="#{label.adicionar.veiculo.nome}"></label>
 					  					<div class="input-group">
-					  						<input type="text" class="form-control" id="veiculoNome" th:placeholder="#{placeholder.adicionar.veiculo.nome}" th:field="*{nome}" required/>
+					  						<input type="text" class="form-control" id="veiculoNome" th:placeholder="#{placeholder.adicionar.veiculo.nome}" th:field="*{nome}" autofocus required />
 					  					</div><!-- ./input-group -->
 					  				</div><!-- ./col-md-12 - nome -->
 					  			</div><!-- ./row -->
