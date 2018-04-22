@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+ 	<head>
+    	<!-- Required meta tags -->
+    	<meta charset="utf-8">
+    	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    	<!-- Bootstrap CSS -->
+    	<link rel="stylesheet" th:href="@{/layout/css/bootstrap.min.css}">
+
+    	<title th:text="#{app.title}"></title>
+  	</head>
+  	<body>
+  		<form method="POST" th:object="${simulacaoDTO}">
+  			<div class="alert alert-danger offset-md-3 col-md-6 alert-dismissible fade show" role="alert" th:if="${#fields.hasAnyErrors()}">
+				<th:block th:each="error : ${#fields.detailedErrors()}">
+					<div>
+						<span th:text="${error.message}"></span>
+					</div>
+				</th:block>
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div><!-- ./alert-danger -->
+			
+			<div class="alert alert-success offset-md-3 col-md-6 alert-dismissible fade show" role="alert" th:if="${!#strings.isEmpty(mensagemSucesso)}">
+				<span th:text="#{${mensagemSucesso}}"></span>
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div><!-- ./alert-success -->
+  		
+  			<div class="form-group row">
+  				<div class="offset-md-3 col-md-6">
+  					<label for="distanciaPercorridaPavimentada" th:text="#{label.distancia.percorrida.pavimentada}"></label>
+  					<div class="input-group">
+	  					<input type="text" class="form-control" th:field="*{distanciaPercorridaPavimentada}" id="distanciaPercorridaPavimentada" th:placeholder="#{placeholder.distancia.percorrida.pavimentada}" aria-describedby="pavimentada-addon" autofocus required/>
+						<div class="input-group-append">
+							<span class="input-group-text" id="pavimentada-addon" th:text="#{symbols.km}"></span>
+						</div><!-- ./input-group-append -->
+  					</div><!-- ./input-group -->
+  				</div><!-- ./col-md-6 - carga -->
+  			</div><!-- ./row -->
+  			
+  			<div class="form-group row">
+  				<div class="offset-md-3 col-md-6">
+  					<label for="distanciaPercorridaPavimentadaN" th:text="#{label.distancia.percorrida.nao.pavimentada}"></label>
+  					<div class="input-group">
+  						<input type="text" class="form-control" th:field="*{distanciaPercorridaNaoPavimentada}" id="distanciaPercorridaPavimentadaN" th:placeholder="#{placeholder.distancia.percorrida.nao.pavimentada}" aria-describedby="quilometragem-addon" required/>
+  						<div class="input-group-append">
+							<span class="input-group-text" id="quilometragem-addon" th:text="#{symbols.km}"></span>
+						</div><!-- ./input-group-append -->
+  					</div><!-- ./input-group -->
+  				</div><!-- ./col-md-6 - carga -->
+  			</div><!-- ./row -->
+  			
+  			<div class="form-group row">
+  				<div class="offset-md-3 col-md-6">
+  					<label for="veiculoSelecionado" th:text="#{label.veiculos}"></label>
+  					<div class="input-group">
+	  					<select class="custom-select" th:field="*{veiculoSelecionado}" id="veiculoSelecionado" required>
+	  						<option value="" th:text="#{label.selecione.veiculo}"></option>
+	  						<option th:each="veiculo : ${veiculos}" th:value="${veiculo.id}" th:text="${veiculo.nome}"></option>
+	  					</select>
+	  					<div class="input-group-append">
+	  						<button class="btn btn-primary" type="button" th:text="#{button.adicionar.veiculo}"></button>
+	  					</div><!-- ./input-group-append -->	
+  					</div><!-- ./input-group -->
+  				</div><!-- ./col-md-6 - veículos -->
+  			</div><!-- ./row -->
+  			
+  			<div class="form-group row">
+  				<div class="offset-md-3 col-md-6">
+  					<label for="toneladas" th:text="#{label.tonelada}"></label>
+  					<div class="input-group">
+	  					<input type="text" class="form-control" th:field="*{toneladas}" id="toneladas" th:placeholder="#{placeholder.tonelada}" aria-describedby="tonelada-addon" required/>
+	  					<div class="input-group-append">
+	  						<span class="input-group-text" id="tonelada-addon" th:text="#{symbols.tonelada}"></span>
+	  					</div><!-- ./input-group-append -->				
+  					</div><!-- ./input-group -->
+  				</div><!-- ./col-md-6 - carga -->
+  			</div><!-- ./row -->
+  			
+  			<div class="row">
+				<div class="offset-md-3 col-md-6">
+					<button type="submit" class="btn btn-primary btn-block" th:text="#{button.simular}"></button>
+				</div><!-- ./col-md-6 -->
+			</div><!-- ./row -->
+  			
+    	</form>
+    	
+    	<!-- Optional JavaScript -->
+    	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    	<script th:src="@{/layout/js/jquery-3.2.1.slim.min.js}"></script>
+    	<script th:src="@{/layout/js/popper/popper.min.js}"></script>
+    	<script th:src="@{/layout/js/bootstrap/bootstrap.min.js}"></script>
+    	<script th:src="@{/js/app/app.js}"></script>
+  	</body>
+</html>
