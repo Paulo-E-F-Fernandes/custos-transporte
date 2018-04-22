@@ -5,6 +5,8 @@ import java.math.BigDecimal;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
+import org.springframework.format.annotation.NumberFormat;
+
 /**
  *
  * @author Paulo Fernandes
@@ -18,6 +20,7 @@ public class Veiculo extends BaseEntity {
 	@Column(name = "fator_multiplicador", nullable = false, precision = 8, scale = 2)
 	private BigDecimal fator;
 
+	@NumberFormat(pattern = "#,##0.00")
 	public BigDecimal getFator() {
 		return fator;
 	}

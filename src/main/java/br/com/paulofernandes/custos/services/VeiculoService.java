@@ -34,4 +34,13 @@ public class VeiculoService {
 		return veiculosDTO;
 	}
 
+	public void adicionar(VeiculoDTO veiculoDTO) {
+		Veiculo veiculo = new Veiculo();
+
+		veiculo.setNome(veiculoDTO.getNome());
+		veiculo.setFator(veiculoDTO.getFator());
+
+		veiculoRepository.save(veiculo);
+	}
+
 }

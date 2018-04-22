@@ -6,94 +6,160 @@
     	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     	<!-- Bootstrap CSS -->
-    	<link rel="stylesheet" th:href="@{/layout/css/bootstrap.min.css}">
+    	<link rel="stylesheet" th:href="@{/layout/css/bootstrap/bootstrap.min.css}">
+    	<!-- App style -->
+    	<link rel="stylesheet" th:href="@{/layout/css/style.css}">
 
     	<title th:text="#{app.title}"></title>
   	</head>
   	<body>
-  		<form method="POST" th:object="${simulacaoDTO}">
-  			<div class="alert alert-danger offset-md-3 col-md-6 alert-dismissible fade show" role="alert" th:if="${#fields.hasAnyErrors()}">
-				<th:block th:each="error : ${#fields.detailedErrors()}">
-					<div>
-						<span th:text="${error.message}"></span>
+		<nav class="navbar navbar-dark bg-primary">
+  			<a class="navbar-brand" href="#">
+    			<img th:src="@{/layout/image/brand/white-truck-32.png}" width="32" height="25" class="d-inline-block align-top" alt="">
+    			<span th:text="#{app.title}"></span>
+  			</a>
+		</nav>
+  	
+  		<div class="row" th:object="${simulacaoDTO}">
+			<div class="col-md-7">
+  				<form method="POST">
+		  			<div class="alert alert-danger offset-md-2 col-md-10 alert-dismissible fade show" role="alert" th:if="${#fields.hasAnyErrors()}">
+						<th:block th:each="error : ${#fields.detailedErrors()}">
+							<div>
+								<span th:text="${error.message}"></span>
+							</div>
+						</th:block>
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div><!-- ./alert-danger -->
+					
+					<div class="alert alert-success offset-md-2 col-md-10 alert-dismissible fade show" role="alert" th:if="${!#strings.isEmpty(mensagemSucesso) && custoFinal == null}">
+						<span th:text="#{${mensagemSucesso}}"></span>
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div><!-- ./alert-success -->
+		  		
+		  			<div class="form-group row">
+		  				<div class="offset-md-2 col-md-10">
+		  					<label for="distanciaPercorridaPavimentada" th:text="#{label.distancia.percorrida.pavimentada}"></label>
+		  					<div class="input-group">
+			  					<input type="text" class="form-control integer-number" th:field="*{distanciaPercorridaPavimentada}" id="distanciaPercorridaPavimentada" th:placeholder="#{placeholder.distancia.percorrida.pavimentada}" aria-describedby="pavimentada-addon" autofocus required/>
+								<div class="input-group-append">
+									<span class="input-group-text" id="pavimentada-addon" th:text="#{symbols.km}"></span>
+								</div><!-- ./input-group-append -->
+		  					</div><!-- ./input-group -->
+		  				</div><!-- ./col-md-10 - carga -->
+		  			</div><!-- ./row -->
+		  			
+		  			<div class="form-group row">
+		  				<div class="offset-md-2 col-md-10">
+		  					<label for="distanciaPercorridaPavimentadaN" th:text="#{label.distancia.percorrida.nao.pavimentada}"></label>
+		  					<div class="input-group">
+		  						<input type="text" class="form-control integer-number" th:field="*{distanciaPercorridaNaoPavimentada}" id="distanciaPercorridaPavimentadaN" th:placeholder="#{placeholder.distancia.percorrida.nao.pavimentada}" aria-describedby="quilometragem-addon" required/>
+		  						<div class="input-group-append">
+									<span class="input-group-text" id="quilometragem-addon" th:text="#{symbols.km}"></span>
+								</div><!-- ./input-group-append -->
+		  					</div><!-- ./input-group -->
+		  				</div><!-- ./col-md-10 - carga -->
+		  			</div><!-- ./row -->
+	  			
+		  			<div class="form-group row">
+		  				<div class="offset-md-2 col-md-10">
+		  					<label for="veiculoSelecionado" th:text="#{label.veiculos}"></label>
+		  					<div class="input-group">
+			  					<select class="custom-select" th:field="*{veiculoSelecionado}" id="veiculoSelecionado" required>
+			  						<option value="" th:text="#{label.selecione.veiculo}"></option>
+			  						<option th:each="veiculo : ${veiculos}" th:value="${veiculo.id}" th:text="|${veiculo.nome} (${{veiculo.fator}})|"></option>
+			  					</select>
+			  					<div class="input-group-append">
+			  						<button class="btn btn-primary" type="button" th:text="#{button.adicionar.veiculo}" data-toggle="modal" data-target="#cadastroVeiculoModal"></button>
+			  					</div><!-- ./input-group-append -->	
+		  					</div><!-- ./input-group -->
+		  				</div><!-- ./col-md-10 - veículos -->
+		  			</div><!-- ./row -->
+		  			
+		  			<div class="form-group row">
+		  				<div class="offset-md-2 col-md-10">
+		  					<label for="toneladas" th:text="#{label.tonelada}"></label>
+		  					<div class="input-group">
+			  					<input type="text" class="form-control integer-number" th:field="*{toneladas}" id="toneladas" th:placeholder="#{placeholder.tonelada}" aria-describedby="tonelada-addon" required/>
+			  					<div class="input-group-append">
+			  						<span class="input-group-text" id="tonelada-addon" th:text="#{symbols.tonelada}"></span>
+			  					</div><!-- ./input-group-append -->				
+		  					</div><!-- ./input-group -->
+		  				</div><!-- ./col-md-10 - carga -->
+		  			</div><!-- ./row -->
+		  			
+		  			<div class="row">
+						<div class="offset-md-2 col-md-10">
+							<button type="submit" class="btn btn-primary btn-block" th:text="#{button.simular}"></button>
+						</div><!-- ./col-md-10 -->
+					</div><!-- ./row -->	
+	   			
+    			</form>
+    		</div><!-- ./col-md-7 -->
+    		
+			<div class="col-md-4" th:if="${custoFinal != null}">
+				<div class="alert alert-success col-md-12 alert-dismissible fade show" role="alert">
+					<div class="row">
+						<span class="col-md-12" th:text="#{${mensagemSucesso}}"></span>
+						<span class="col-md-12" th:text="#{message.simulacao.sucesso.prefixo}"></span>
+						<span class="col-md-12 return-currency" th:text="${#numbers.formatCurrency(custoFinal)}"></span>				
 					</div>
-				</th:block>
-				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div><!-- ./alert-danger -->
-			
-			<div class="alert alert-success offset-md-3 col-md-6 alert-dismissible fade show" role="alert" th:if="${!#strings.isEmpty(mensagemSucesso)}">
-				<span th:text="#{${mensagemSucesso}}"></span>
-				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div><!-- ./alert-success -->
-  		
-  			<div class="form-group row">
-  				<div class="offset-md-3 col-md-6">
-  					<label for="distanciaPercorridaPavimentada" th:text="#{label.distancia.percorrida.pavimentada}"></label>
-  					<div class="input-group">
-	  					<input type="text" class="form-control" th:field="*{distanciaPercorridaPavimentada}" id="distanciaPercorridaPavimentada" th:placeholder="#{placeholder.distancia.percorrida.pavimentada}" aria-describedby="pavimentada-addon" autofocus required/>
-						<div class="input-group-append">
-							<span class="input-group-text" id="pavimentada-addon" th:text="#{symbols.km}"></span>
-						</div><!-- ./input-group-append -->
-  					</div><!-- ./input-group -->
-  				</div><!-- ./col-md-6 - carga -->
-  			</div><!-- ./row -->
-  			
-  			<div class="form-group row">
-  				<div class="offset-md-3 col-md-6">
-  					<label for="distanciaPercorridaPavimentadaN" th:text="#{label.distancia.percorrida.nao.pavimentada}"></label>
-  					<div class="input-group">
-  						<input type="text" class="form-control" th:field="*{distanciaPercorridaNaoPavimentada}" id="distanciaPercorridaPavimentadaN" th:placeholder="#{placeholder.distancia.percorrida.nao.pavimentada}" aria-describedby="quilometragem-addon" required/>
-  						<div class="input-group-append">
-							<span class="input-group-text" id="quilometragem-addon" th:text="#{symbols.km}"></span>
-						</div><!-- ./input-group-append -->
-  					</div><!-- ./input-group -->
-  				</div><!-- ./col-md-6 - carga -->
-  			</div><!-- ./row -->
-  			
-  			<div class="form-group row">
-  				<div class="offset-md-3 col-md-6">
-  					<label for="veiculoSelecionado" th:text="#{label.veiculos}"></label>
-  					<div class="input-group">
-	  					<select class="custom-select" th:field="*{veiculoSelecionado}" id="veiculoSelecionado" required>
-	  						<option value="" th:text="#{label.selecione.veiculo}"></option>
-	  						<option th:each="veiculo : ${veiculos}" th:value="${veiculo.id}" th:text="${veiculo.nome}"></option>
-	  					</select>
-	  					<div class="input-group-append">
-	  						<button class="btn btn-primary" type="button" th:text="#{button.adicionar.veiculo}"></button>
-	  					</div><!-- ./input-group-append -->	
-  					</div><!-- ./input-group -->
-  				</div><!-- ./col-md-6 - veículos -->
-  			</div><!-- ./row -->
-  			
-  			<div class="form-group row">
-  				<div class="offset-md-3 col-md-6">
-  					<label for="toneladas" th:text="#{label.tonelada}"></label>
-  					<div class="input-group">
-	  					<input type="text" class="form-control" th:field="*{toneladas}" id="toneladas" th:placeholder="#{placeholder.tonelada}" aria-describedby="tonelada-addon" required/>
-	  					<div class="input-group-append">
-	  						<span class="input-group-text" id="tonelada-addon" th:text="#{symbols.tonelada}"></span>
-	  					</div><!-- ./input-group-append -->				
-  					</div><!-- ./input-group -->
-  				</div><!-- ./col-md-6 - carga -->
-  			</div><!-- ./row -->
-  			
-  			<div class="row">
-				<div class="offset-md-3 col-md-6">
-					<button type="submit" class="btn btn-primary btn-block" th:text="#{button.simular}"></button>
-				</div><!-- ./col-md-6 -->
-			</div><!-- ./row -->
-  			
-    	</form>
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div><!-- ./alert-success -->
+			</div><!-- ./col-md-4 -->
+		</div><!-- ./row -->
     	
-    	<!-- Optional JavaScript -->
+    	<!-- Modal cadastro de veículo -->
+		<div class="modal fade" id="cadastroVeiculoModal" tabindex="-1" role="dialog" aria-labelledby="cadastroVeiculoModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<form method="POST" th:action="@{/veiculo}" th:object="${veiculoDTO}">
+						<div class="modal-header">
+							<h5 class="modal-title" id="cadastroVeiculoModalLabel" th:text="#{label.adicionar.veiculo.titulo}"></h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div><!-- ./modal-header -->
+						<div class="modal-body">
+								<div class="form-group row">
+					  				<div class="col-md-12">
+					  					<label for="veiculoNome" th:text="#{label.adicionar.veiculo.nome}"></label>
+					  					<div class="input-group">
+					  						<input type="text" class="form-control" id="veiculoNome" th:placeholder="#{placeholder.adicionar.veiculo.nome}" th:field="*{nome}" required/>
+					  					</div><!-- ./input-group -->
+					  				</div><!-- ./col-md-12 - nome -->
+					  			</div><!-- ./row -->
+					  			
+					  			<div class="form-group row">
+					  				<div class="col-md-12">
+					  					<label for="veiculoFator" th:text="#{label.adicionar.veiculo.fator}"></label>
+					  					<div class="input-group">
+										<input type="text" class="form-control decimal-number" id="veiculoFator" th:placeholder="#{placeholder.adicionar.veiculo.fator}" th:field="*{fator}" required/>
+					  					</div><!-- ./input-group -->
+					  				</div><!-- ./col-md-12 - fator -->
+					  			</div><!-- ./row -->
+						</div><!-- ./modal-body -->
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal" th:text="#{button.cancelar}"></button>
+							<button type="submit" class="btn btn-primary" th:text="#{button.salvar}"></button>
+						</div><!-- ./modal-footer -->
+					</form>
+				</div><!-- ./modal-content -->
+			</div><!-- ./modal-dialog -->
+		</div><!-- ./modal -->
+
+		<!-- Optional JavaScript -->
     	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
     	<script th:src="@{/layout/js/jquery-3.2.1.slim.min.js}"></script>
     	<script th:src="@{/layout/js/popper/popper.min.js}"></script>
     	<script th:src="@{/layout/js/bootstrap/bootstrap.min.js}"></script>
-    	<script th:src="@{/js/app/app.js}"></script>
+    	<script th:src="@{/layout/js/jquery.masknumber.min.js}"></script>
+    	<script th:src="@{/layout/js/app.js}"></script>
   	</body>
 </html>

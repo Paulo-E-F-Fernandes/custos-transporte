@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.paulofernandes.custos.dtos.SimulacaoDTO;
+import br.com.paulofernandes.custos.dtos.VeiculoDTO;
 import br.com.paulofernandes.custos.services.SimuladorService;
 import br.com.paulofernandes.custos.services.VeiculoService;
 
@@ -29,7 +30,7 @@ public class SimulacaoController {
 	private SimuladorService simulacaoService;
 
 	@GetMapping("/simulacao")
-	public ModelAndView simulacao(SimulacaoDTO simulacaoDTO) {
+	public ModelAndView simulacao(SimulacaoDTO simulacaoDTO, VeiculoDTO veiculoDTO) {
 		ModelAndView mv = new ModelAndView("custos/simulacao");
 		mv.addObject("veiculos", veiculoService.getListCombo());
 		return mv;
@@ -38,10 +39,11 @@ public class SimulacaoController {
 	@PostMapping("/simulacao")
 	public ModelAndView simular(@Valid SimulacaoDTO simulacaoDTO, BindingResult result, RedirectAttributes redirect) {
 		if (result.hasErrors()) {
-			return simulacao(simulacaoDTO);
+			return simulacao(simulacaoDTO, new VeiculoDTO());
 		}
 
 		simulacaoService.simular(simulacaoDTO);
+
 		redirect.addFlashAttribute("mensagemSucesso", "message.simulacao.sucesso");
 		redirect.addFlashAttribute("custoFinal", simulacaoDTO.getCustoFinal());
 		return new ModelAndView("redirect:/simulacao");
