@@ -22,7 +22,7 @@ public class BaseEntity implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	protected Long id;
 
-	@Column(length = 64, nullable = false, unique = true)
+	@Column(length = 64, nullable = false)
 	protected String nome;
 
 	public Long getId() {
